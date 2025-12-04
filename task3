@@ -1,0 +1,18 @@
+
+import pandas as pd
+df = pd.read_csv("data.csv")
+
+df = df.drop_duplicates()   
+df = df.dropna()            
+if "price" in df.columns and "quantity" in df.columns:
+    df["total"] = df["price"] * df["quantity"]
+if "name" in df.columns:
+    df["name"] = df["name"].str.lower()
+
+print("\nSummary Statistics:")
+print(df.describe())
+
+print("\nFirst Few Rows:")
+print(df.head())
+df.to_csv("cleaned_data.csv", index=False)
+print("\nCleaned file saved as: cleaned_data.csv")
