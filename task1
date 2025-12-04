@@ -1,0 +1,51 @@
+import os
+import shutil
+def rename_files(folder):
+    print("\n[+] Renaming Files...")
+    for count, filename in enumerate(os.listdir(folder), start=1):
+        name, ext = os.path.splitext(filename)
+        new_name = f"file_{count}{ext}"
+        old_path = os.path.join(folder, filename)
+        new_path = os.path.join(folder, new_name)
+
+        os.rename(old_path, new_path)
+        print(f"Renamed: {filename} → {new_name}")
+
+def sort_files(folder):
+    print("\n[+] Sorting Files into Folders...")
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
+        if not os.path.isfile(file_path):
+            continue
+
+        ext = filename.split(".")[-1].lower()
+        new_dir = os.path.join(folder, ext)
+
+        if not os.path.exists(new_dir):
+            os.makedirs(new_dir)
+
+        shutil.move(file_path, new_dir)
+        print(f"Moved {filename} → {ext}/")
+
+def clean_files(folder):
+    print("\n[+] Cleaning Unwanted Files...")
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
+        ext = os.path.splitext(filename)[1].lower()
+          if ext in CLEAN_EXTENSIONS:
+            os.remove(file_path)
+            print(f"Deleted {filename}")
+def main():
+    print("=== File Automation Script ===")
+
+    rename_files(SOURCE_FOLDER)
+
+    if SORT_FOLDER:
+        sort_files(SOURCE_FOLDER)
+
+    clean_files(SOURCE_FOLDER)
+
+    print("\nAutomation Completed Successfully!")
+
+if __name__ == "__main__":
+    main()
